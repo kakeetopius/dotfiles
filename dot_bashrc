@@ -36,7 +36,10 @@ shopt -s histappend
 PROMPT_COMMAND='history -a; history -n; history -r'
 
 #adding custom scripts folder to path
-export PATH="$PATH:/home/pius/Dev/myBin:/home/pius/go/bin"
+customPaths=("$HOME/Dev/myBin" "$HOME/go/bin")
+for path in "{$customPaths[@]}"; do
+    [ -f "$path" ] && export PATH="$PATH:$path"
+done
 
 export PAGER="less -RF"
 export PAGER_PATH="/usr/bin/less"
