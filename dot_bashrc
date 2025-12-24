@@ -26,6 +26,7 @@ alias sd="sudo shutdown now"
 export EDITOR="/usr/bin/nvim"
 export VISUAL="/usr/bin/nvim"
 export TERM="xterm-256color"
+export CMAN_DBFILE="$HOME/.local/share/chezmoi/dot_creds.db"
 
 #--BASH OPTIONS
 set -o ignoreeof
