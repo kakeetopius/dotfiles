@@ -1,0 +1,81 @@
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Some more alias to avoid making mistakes:
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias status="sudo systemctl status"
+alias restart="sudo systemctl restart"
+alias start="sudo systemctl start"
+alias stop="sudo systemctl stop"
+
+#some other aliases
+alias sdr="sudo shutdown -r now"
+alias sd="sudo shutdown now"
+
+export EDITOR="/usr/bin/nvim"
+export VISUAL="/usr/bin/nvim"
+export TERM="xterm-256color"
+
+#--BASH OPTIONS
+set -o ignoreeof
+shopt -s cdspell
+shopt -s autocd
+# Append to history immediately after each command
+shopt -s histappend
+PROMPT_COMMAND='history -a; history -n; history -r'
+
+#adding custom scripts folder to path
+export PATH="$PATH:/home/pius/Dev/myBin:/home/pius/go/bin"
+
+export PAGER="less -RF"
+export PAGER_PATH="/usr/bin/less"
+
+#theme for bat (cat replacement)
+export BAT_THEME="tokyonight_night"
+
+#-------------------FZF CONFIGURATION-------------------------
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+
+#enable fzf_tmux
+# export FZF_TMUX=1
+# export FZF_TMUX_OPTS='-p 50%,60%'
+# export FZF_DEFAULT_OPTS='--tmux'
+
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
+
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# Bind the Up arrow to trigger the fzf history search
+bind -x '"\e[A": __fzf_history__'
+#------------------------------------------------------------------------
+
+
+alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
+alias top='btop'
+
+eval "$(starship init bash)"
+. "/home/pius/.deno/env"
+source /home/pius/.local/share/bash-completion/completions/deno.bash
+
+
+#Source secrets file
+if [ -f "$HOME/.config/secrets" ]; then
+    source "$HOME/.config/secrets"
+fi
+
+
