@@ -26,7 +26,18 @@ alias sd="sudo shutdown now"
 export EDITOR="/usr/bin/nvim"
 export VISUAL="/usr/bin/nvim"
 export TERM="xterm-256color"
+export PAGER="less -RF"
+export PAGER_PATH="/usr/bin/less"
+export BAT_THEME="tokyonight_night"
 export CMAN_DBFILE="$HOME/.local/share/chezmoi/dot_creds.db"
+
+#adding custom scripts folder to path
+customPaths=("$HOME/Dev/myBin" "$HOME/go/bin")
+for path in "${customPaths[@]}"; do
+    [ -d "$path" ] && export PATH="$PATH:$path"
+done
+
+export yt_api="{{- secret "get" "yt-api" "-t" "api" "-f" "key" "-q" -}}"
 
 #--BASH OPTIONS
 set -o ignoreeof
@@ -35,18 +46,6 @@ shopt -s autocd
 # Append to history immediately after each command
 shopt -s histappend
 PROMPT_COMMAND='history -a; history -n; history -r'
-
-#adding custom scripts folder to path
-customPaths=("$HOME/Dev/myBin" "$HOME/go/bin")
-for path in "{$customPaths[@]}"; do
-    [ -f "$path" ] && export PATH="$PATH:$path"
-done
-
-export PAGER="less -RF"
-export PAGER_PATH="/usr/bin/less"
-
-#theme for bat (cat replacement)
-export BAT_THEME="tokyonight_night"
 
 #-------------------FZF CONFIGURATION-------------------------
 # Set up fzf key bindings and fuzzy completion
@@ -74,12 +73,7 @@ alias top='btop'
 
 eval "$(starship init bash)"
 . "/home/pius/.deno/env"
-source /home/pius/.local/share/bash-completion/completions/deno.bash
 
 
-#Source secrets file
-if [ -f "$HOME/.config/secrets" ]; then
-    source "$HOME/.config/secrets"
-fi
 
 
