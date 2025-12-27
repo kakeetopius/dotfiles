@@ -1,4 +1,4 @@
-Dotfiles managed by **[chezmoi](chezmoi.io)**  
+Dotfiles managed by **[chezmoi](https://chezmoi.io)**  
 
 ### Installation
 ```bash
