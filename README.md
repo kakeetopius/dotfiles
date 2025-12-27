@@ -1,6 +1,6 @@
 Dotfiles managed by **[chezmoi.io](chezmoi)**  
 
-## Installation
+#### Installation
 ```bash
 chezmoi init --apply kakeetopius
 ```
