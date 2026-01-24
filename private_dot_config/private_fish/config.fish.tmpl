@@ -1,0 +1,42 @@
+if status is-interactive
+    
+    alias scstatus="sudo systemctl status"
+    alias restart="sudo systemctl restart"
+    alias start="sudo systemctl start"
+    alias stop="sudo systemctl stop"
+    alias sdr="sudo shutdown -r now"
+    alias sd="sudo shutdown now"
+    alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
+    alias top='btop'
+
+    set -xg EDITOR "/usr/bin/nvim"
+    set -xg VISUAL "/usr/bin/nvim"
+    set -xg TERM "xterm-256color"
+    set -xg PAGER "less -RF"
+    set -xg PAGER_PATH "/usr/bin/less"
+    set -xg BAT_THEME "tokyonight_night"
+    set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
+    set -xg yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
+
+    #adding custom scripts folder to path
+    set customPaths $HOME/Dev/bin $HOME/go/bin
+
+    for path in customPaths
+	[ -d $path ] && set -xg PATH $PATH:$path
+    end
+
+    abbr n nvim
+
+    bind alt-e "nvim ."
+
+    eval "$(fzf --fish)"
+    # Setting fd as the default source for fzf
+    set -xg FZF_DEFAULT_COMMAND 'fd --hidden --strip-cwd-prefix --exclude .git'
+
+    # To apply the command to CTRL-T as well
+    set -xg FZF_CTRL_T_COMMAND  $FZF_DEFAULT_COMMAND 
+    set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+    eval (starship init fish)
+end
+

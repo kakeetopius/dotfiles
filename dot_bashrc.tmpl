@@ -37,7 +37,7 @@ for path in "${customPaths[@]}"; do
     [ -d "$path" ] && export PATH="$PATH:$path"
 done
 
-export yt_api="{{- secret "get" "yt-api" "-t" "api" "-f" "key" "-q" -}}"
+export yt_api="{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
 
 #--BASH OPTIONS
 set -o ignoreeof
