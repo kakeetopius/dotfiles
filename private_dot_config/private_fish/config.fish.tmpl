@@ -26,6 +26,7 @@ if status is-interactive
     end
 
     abbr n nvim
+    abbr gb "go build ."
 
     bind alt-e "nvim ."
 
@@ -37,6 +38,11 @@ if status is-interactive
     set -xg FZF_CTRL_T_COMMAND  $FZF_DEFAULT_COMMAND 
     set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
+
     eval (starship init fish)
+
+    if test -z "$TMUX"
+	tmux new -A -s main
+    end
 end
 
