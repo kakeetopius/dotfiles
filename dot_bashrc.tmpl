@@ -76,6 +76,10 @@ eval "$(starship init bash)"
 
 . "$HOME/.cargo/env"
 
-[ -x /bin/fish ] && SHELL=/bin/fish exec fish
+#checking to see if one of the bash options is *interactive*
+if [[ "$-" == *i* ]]; then
+    [ -x /bin/fish ] && SHELL=/bin/fish exec fish
+fi
+
 
 
