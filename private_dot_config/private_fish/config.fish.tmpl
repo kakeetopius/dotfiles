@@ -8,6 +8,7 @@ if status is-interactive
     alias sd="sudo shutdown now"
     alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
     alias top='btop'
+	alias nvim-cd="cd ~/.config/nvim"
 
     set -xg EDITOR "/usr/bin/nvim"
     set -xg VISUAL "/usr/bin/nvim"
@@ -27,7 +28,8 @@ if status is-interactive
 
     abbr n nvim
     abbr gb "go build ."
-
+    abbr gr "go run ."
+	
     bind alt-e "nvim ."
 
     eval "$(fzf --fish)"
