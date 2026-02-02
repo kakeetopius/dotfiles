@@ -16,8 +16,10 @@ if status is-interactive
     set -xg PAGER "less -RF"
     set -xg PAGER_PATH "/usr/bin/less"
     set -xg BAT_THEME "tokyonight_night"
+	{{ if eq .chezmoi.hostname "pius-pc" }}
     set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
     set -xg yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
+	{{ end }}
 
     #adding custom scripts folder to path
     set customPaths $HOME/Dev/bin $HOME/go/bin
