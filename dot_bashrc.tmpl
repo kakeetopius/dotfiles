@@ -29,7 +29,6 @@ export TERM="xterm-256color"
 export PAGER="less -RF"
 export PAGER_PATH="/usr/bin/less"
 export BAT_THEME="tokyonight_night"
-export CMAN_DBFILE="$HOME/.local/share/chezmoi/dot_creds.db"
 
 #adding custom scripts folder to path
 customPaths=("$HOME/Dev/bin" "$HOME/go/bin")
@@ -37,7 +36,10 @@ for path in "${customPaths[@]}"; do
     [ -d "$path" ] && export PATH="$PATH:$path"
 done
 
+{{ if eq .chezmoi.hostname "pius-pc" }}
+export CMAN_DBFILE="$HOME/.local/share/chezmoi/dot_creds.db"
 export yt_api="{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
+{{ end }}
 
 #--BASH OPTIONS
 set -o ignoreeof
