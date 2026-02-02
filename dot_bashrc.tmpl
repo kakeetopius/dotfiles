@@ -71,12 +71,10 @@ bind -x '"\e[A": __fzf_history__'
 
 
 alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
-alias top='btop'
 
-eval "$(starship init bash)"
-. "/home/pius/.deno/env"
+[ -x "$HOME/.deno/env" ] && . "/home/pius/.deno/env"
 
-. "$HOME/.cargo/env"
+[ -x "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 #checking to see if one of the bash options is *interactive*
 if [[ "$-" == *i* ]]; then

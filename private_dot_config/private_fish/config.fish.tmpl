@@ -7,7 +7,6 @@ if status is-interactive
     alias sdr="sudo shutdown -r now"
     alias sd="sudo shutdown now"
     alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
-    alias top='btop'
 	alias nvim-cd="cd ~/.config/nvim"
 
     set -xg EDITOR "/usr/bin/nvim"
@@ -16,10 +15,6 @@ if status is-interactive
     set -xg PAGER "less -RF"
     set -xg PAGER_PATH "/usr/bin/less"
     set -xg BAT_THEME "tokyonight_night"
-	{{ if eq .chezmoi.hostname "pius-pc" }}
-    set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
-    set -xg yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
-	{{ end }}
 
     #adding custom scripts folder to path
     set customPaths $HOME/Dev/bin $HOME/go/bin
@@ -42,11 +37,14 @@ if status is-interactive
     set -xg FZF_CTRL_T_COMMAND  $FZF_DEFAULT_COMMAND 
     set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
-
-    eval (starship init fish)
-
     if test -z "$TMUX"
 	tmux new -A -s main
     end
+
+	{{ if eq .chezmoi.hostname "pius-pc" }}
+    set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
+    set -xg yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
+	eval (starship init fish)	
+	{{ end }}
 end
 

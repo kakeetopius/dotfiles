@@ -2,5 +2,6 @@ README.md
 {{ if  ne .chezmoi.hostname "pius-pc" }}
 .tmux.conf
 .creds.db
+.config/starship.toml
 Dev
 {{end}}
