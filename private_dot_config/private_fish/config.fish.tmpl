@@ -26,6 +26,8 @@ if status is-interactive
     abbr n nvim
     abbr gb "go build ."
     abbr gr "go run ."
+	abbr cb "cargo build"
+	abbr cr "cargo run"
 	
     bind alt-e "nvim ."
 
@@ -42,8 +44,10 @@ if status is-interactive
     end
 
 	{{ if eq .chezmoi.hostname "pius-pc" }}
+	set yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" -}}"
+	set yt_api $(echo "$yt_api" | cut -d":" -f2 | tr -d " ")
     set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
-    set -xg yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" -}}"
+    set -xg yt_api "$yt_api"
 	eval (starship init fish)	
 	{{ end }}
 end
