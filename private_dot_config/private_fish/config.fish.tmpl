@@ -28,8 +28,10 @@ if status is-interactive
     abbr gr "go run ."
 	abbr cb "cargo build"
 	abbr cr "cargo run"
+	abbr cg "cman get"
 	
     bind alt-e "nvim ."
+	bind alt-w "cman get"
 
     eval "$(fzf --fish)"
     # Setting fd as the default source for fzf
@@ -50,5 +52,15 @@ if status is-interactive
     set -xg yt_api "$yt_api"
 	eval (starship init fish)	
 	{{ end }}
+
+	#yazi wrapper function
+	function y
+		set tmp (mktemp -t "yazi-cwd.XXXXXX")
+		command yazi $argv --cwd-file="$tmp"
+		if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+			builtin cd -- "$cwd"
+		end
+		rm -f -- "$tmp"
+	end
 end
 
