@@ -31,6 +31,7 @@ if status is-interactive
 	abbr cg "cman get"
 	
     bind alt-e "nvim ."
+	bind alt-n "nvim"
 	bind alt-w "cman get"
 
     eval "$(fzf --fish)"
@@ -62,5 +63,6 @@ if status is-interactive
 		end
 		rm -f -- "$tmp"
 	end
+	
 end
 
