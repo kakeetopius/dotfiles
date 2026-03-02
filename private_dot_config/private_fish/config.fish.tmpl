@@ -30,8 +30,8 @@ if status is-interactive
 	abbr cr "cargo run"
 	abbr cg "cman get"
 	
-    bind alt-e "nvim ."
-	bind alt-n "nvim"
+    bind alt-e "nvim"
+	bind alt-n "nvim ."
 	bind alt-w "cman get"
 
     eval "$(fzf --fish)"
@@ -47,10 +47,13 @@ if status is-interactive
     end
 
 	{{ if eq .chezmoi.hostname "pius-pc" }}
-	set yt_api "{{- secret "get" "yt-api" "--type" "api" "--field" "key" -}}"
-	set yt_api $(echo "$yt_api" | cut -d":" -f2 | tr -d " ")
+	set api_keys "{{- secret "get" "yt-api" "chatgpt" "--type" "api" "--field" "key" "--quiet" -}}"
+	set api_keys $(echo "$api_keys" | tr "\n" " ") 
+	echo "$api_keys" | read yt_api chatgpt_api
+
     set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
     set -xg yt_api "$yt_api"
+	set -xg chatgpt_api "$chatgpt_api"
 	eval (starship init fish)	
 	{{ end }}
 
