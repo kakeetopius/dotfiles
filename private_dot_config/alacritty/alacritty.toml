@@ -21,4 +21,28 @@ multiplier = 3
 [env]
 TERM = "xterm-256color"
 
+[colors.cursor]
+text = "#0a0a0f"
+cursor = "#ffffff"
 
+# Normal colors 
+[colors.normal]
+black   = "#141414"
+red     = "#e05555"
+green   = "#3ecf8e"
+yellow  = "#d4b24c"
+blue    = "#4c88e0"
+magenta = "#d16ad6"
+cyan    = "#3fbac2"
+white   = "#c8c8c8"
+
+# Bright colors 
+[colors.bright]
+black   = "#4a4a4a"
+red     = "#f06a6a"
+green   = "#50e39c"
+yellow  = "#e6c15c"
+blue    = "#5c9cff"
+magenta = "#e07be0"
+cyan    = "#50cfd8"
+white   = "#eaeaea"
