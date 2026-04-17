@@ -44,7 +44,6 @@ if status is-interactive
     set -xg FZF_CTRL_T_COMMAND  $FZF_DEFAULT_COMMAND 
     set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
-	{{ if eq .chezmoi.hostname "pius-pc" }}
 	set api_keys "{{- secret "get" "yt-api" "chatgpt" "--type" "api" "--field" "key" "--quiet" -}}"
 	set api_keys $(echo "$api_keys" | tr "\n" " ") 
 	echo "$api_keys" | read yt_api chatgpt_api
@@ -53,7 +52,6 @@ if status is-interactive
     set -xg yt_api "$yt_api"
 	set -xg OPENAI_API_KEY "$chatgpt_api"
 	eval (starship init fish)	
-	{{ end }}
 
 	#yazi wrapper function
 	function y
