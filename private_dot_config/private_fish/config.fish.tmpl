@@ -51,7 +51,9 @@ if status is-interactive
     set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
     set -xg yt_api "$yt_api"
 	set -xg OPENAI_API_KEY "$chatgpt_api"
+	{{ if eq .chezmoi.hostname "pius-pc" }}
 	eval (starship init fish)	
+	{{ end }}
 
 	#yazi wrapper function
 	function y
