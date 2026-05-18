@@ -52,6 +52,7 @@ if status is-interactive
     set -xg yt_api "$yt_api"
 	set -xg OPENAI_API_KEY "$chatgpt_api"
 	set -xg OPENSUBTITLES_API_KEY "$opensubtitles_api"
+	set -xg CMAN_DBURL "https://raw.githubusercontent.com/kakeetopius/dotfiles/refs/heads/main/dot_creds.db"
 	{{ if eq .chezmoi.hostname "pius-pc" }}
 	eval (starship init fish)	
 	{{ end }}
