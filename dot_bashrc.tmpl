@@ -1,11 +1,11 @@
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
+. /etc/bashrc
 fi
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
@@ -14,33 +14,12 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-alias status="sudo systemctl status"
-alias restart="sudo systemctl restart"
-alias start="sudo systemctl start"
-alias stop="sudo systemctl stop"
-
-#some other aliases
-alias sdr="sudo shutdown -r now"
-alias sd="sudo shutdown now"
-
-export EDITOR="/usr/bin/nvim"
-export VISUAL="/usr/bin/nvim"
-export TERM="xterm-256color"
-export PAGER="less -RF"
-export PAGER_PATH="/usr/bin/less"
-export BAT_THEME="tokyonight_night"
-
 #adding custom scripts folder to path
 customPaths=("$HOME/Dev/bin" "$HOME/go/bin")
 for path in "${customPaths[@]}"; do
-    [ -d "$path" ] && export PATH="$PATH:$path"
+[ -d "$path" ] && export PATH="$PATH:$path"
 done
 
-
-#--BASH OPTIONS
-set -o ignoreeof
-shopt -s cdspell
-shopt -s autocd
 # Append to history immediately after each command
 shopt -s histappend
 PROMPT_COMMAND='history -a; history -n; history -r'
@@ -65,17 +44,9 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 bind -x '"\e[A": __fzf_history__'
 #------------------------------------------------------------------------
 
-
 alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
-
-[ -x "$HOME/.deno/env" ] && . "/home/pius/.deno/env"
-
-[ -x "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 #checking to see if one of the bash options is *interactive*
 if [[ "$-" == *i* ]]; then
-    [ -x /bin/fish ] && SHELL=/bin/fish exec fish
+[ -x /bin/fish ] && SHELL=/bin/fish exec fish
 fi
-
-
-
