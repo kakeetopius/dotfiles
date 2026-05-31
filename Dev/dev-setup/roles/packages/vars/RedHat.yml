@@ -8,3 +8,5 @@ packages:
   - fd-find
   - fzf
   - eza
+  - openssl-devel
+  - perl

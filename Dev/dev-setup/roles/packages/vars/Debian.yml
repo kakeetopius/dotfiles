@@ -2,9 +2,9 @@ packages:
   - git
   - neovim
   - golang
-  - alacritty
   - fish
   - tmux
   - fd-find
   - fzf
-  - eza
+  - libssl-dev
+  - perl

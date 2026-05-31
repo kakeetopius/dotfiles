@@ -43,6 +43,7 @@ set -xg FZF_DEFAULT_COMMAND 'fd --hidden --strip-cwd-prefix --exclude .git'
 set -xg FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
 set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
+{{ if .chezmoi.config.secret.command }}
 set api_keys "{{ secret "get" "yt-api" "chatgpt" "opensubtitles_api" "--type" "api" "--field" "key" "--quiet" }}"
 set api_keys $(echo "$api_keys" | tr "\n" " ")
 echo "$api_keys" | read yt_api chatgpt_api opensubtitles_api
@@ -52,10 +53,9 @@ set -xg CMAN_DBURL "https://raw.githubusercontent.com/kakeetopius/dotfiles/refs/
 set -xg yt_api "$yt_api"
 set -xg OPENAI_API_KEY "$chatgpt_api"
 set -xg OPENSUBTITLES_API_KEY "$opensubtitles_api"
-
-{{ if eq .chezmoi.hostname "pius-pc" }}
-eval (starship init fish)
 {{ end }}
+
+eval (starship init fish)
 
 if test -z "$TMUX"
 tmux new -A -s main

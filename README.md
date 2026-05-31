@@ -17,9 +17,9 @@ python3 -m pip install --user ansible
 - Setup environment with ansible.
 
 ```bash
-cd Dev/dev-setup
+cd $HOME/Dev/dev-setup
 ```
 
 ```bash
-ansible-playbook -i hosts.yml setup-pb.yml --ask-become-password
+ansible-playbook -i hosts.yml setup-pb.yml -K
 ```

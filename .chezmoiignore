@@ -1,6 +1,1 @@
 README.md
-{{ if  ne .chezmoi.hostname "pius-pc" }}
-.tmux.conf
-.config/starship.toml
-Dev
-{{end}}
