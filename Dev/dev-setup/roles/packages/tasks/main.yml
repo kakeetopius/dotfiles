@@ -1,0 +1,63 @@
+---
+# tasks file for roles/packages
+
+- name: Include OS specific variables
+  ansible.builtin.include_vars:
+    file: '{{ansible_os_family}}.yml'
+
+- name: Installing core dev packages
+  become: true
+  ansible.builtin.package:
+    name: '{{ packages }}'
+    state: present
+
+- name: Downloading rustup installer
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: ./rustup-init.sh
+    mode: '0755'
+
+- name: Installing Rust
+  ansible.builtin.command:
+    cmd: ./rustup-init.sh -y
+
+- name: Installing lazygit
+  ansible.builtin.command:
+    cmd: go install github.com/jesseduffield/lazygit@latest
+
+- name: Downloading starship installer
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: ./starship_install.sh
+    mode: '0755'
+
+- name: Installing starship
+  ansible.builtin.command:
+    cmd: ./starship_install.sh -y
+
+- name: Setting up Neovim Config folder.
+  ansible.builtin.command:
+    cmd: mkdir -p '{{ config_dir }}/nvim'
+    creates: '{{ config_dir }}/nvim'
+
+- name: Cloning neovim configuration
+  ansible.builtin.git:
+    repo: "https://github.com/kakeetopius/nvim-setup"
+    dest: '{{ config_dir }}/nvim'
+  ignore_errors: true
+
+- name: Setting up development folder
+  ansible.builtin.command:
+    cmd: mkdir -p '{{ project_dir }}'
+    creates: '{{ project_dir }}'
+
+- name: Cloning credential manager (cman) repo
+  ansible.builtin.git:
+    repo: "https://github.com/kakeetopius/credman"
+    dest: '{{ project_dir }}/credman'
+  ignore_errors: true
+
+- name: Installing credential manager (cman)
+  ansible.builtin.command:
+    chdir: '{{ project_dir }}/credman'
+    cmd: cargo install --path .

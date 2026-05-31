@@ -1,0 +1,2 @@
+project_dir: '{{ansible_user_dir}}/Dev/Proj'
+config_dir: '{{ansible_user_dir}}/.config'

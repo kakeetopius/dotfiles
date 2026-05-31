@@ -1,0 +1,5 @@
+---
+- name: Setup Complete Development Environment
+  hosts: local
+  roles:
+    - packages
