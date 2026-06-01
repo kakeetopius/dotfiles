@@ -4,9 +4,9 @@ add_newline = true
 
 format = """
 $os(bg:#a3aed2 fg:#090c0c)\
-$username(bg:#1d2230)\
+$username\
 $hostname\
-[](fg:#1d2230 bg:#769ff0)\
+[](fg:#769ff0)\
 $directory\
 [](fg:#769ff0 bg:#394260)\
 $git_branch\
@@ -28,9 +28,9 @@ $time\
 
 [username]
 show_always = true
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
-format = '[ $user]($style)'
+style_user = "fg:#ffffff"
+style_root = "fg:#ff0000"
+format = '[ $user ]($style)'
 
 [directory]
 style = "fg:#e3e5e5 bg:#769ff0"
@@ -87,6 +87,8 @@ RedHatEnterprise = "󱄛"
 
 [hostname]
 ssh_only = true
+ssh_symbol = " 󰣀 󰖟 "
+style = "fg:#ffffff bg:#1d2230"
 format = '[$ssh_symbol](bold blue) on [$hostname](bold red) '
 trim_at = '.companyname.com'
 disabled = false
