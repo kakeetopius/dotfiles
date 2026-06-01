@@ -3,7 +3,7 @@
 
 - name: Include OS specific variables
   ansible.builtin.include_vars:
-    file: '{{ansible_os_family}}.yml'
+    file: '{{ansible_facts["os_family"]}}.yml'
 
 - name: Installing core dev packages
   become: true
@@ -68,4 +68,4 @@
 - name: Installing eza
   ansible.builtin.command:
     cmd: '{{ cargo_path }} install eza'
-  when: ansible_os_family == "Debian"
+  when: ansible_facts["os_family"] == "Debian"
