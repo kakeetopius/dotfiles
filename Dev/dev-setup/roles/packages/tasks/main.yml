@@ -8,19 +8,19 @@
 - name: Installing core dev packages
   become: true
   ansible.builtin.package:
-    name: '{{ packages }}'
+    name: "{{ packages }}"
     state: present
 
 - name: Downloading rustup installer
   ansible.builtin.get_url:
     url: https://sh.rustup.rs
-    dest: ./rustup-init.sh
-    mode: '0755'
+    dest: /tmp/rustup-init.sh
+    mode: "0755"
 
 - name: Installing Rust
   register: result
   ansible.builtin.command:
-    cmd: ./rustup-init.sh -y
+    cmd: /tmp/rustup-init.sh -y
   failed_when: result.rc not in [0, 1]
 
 - name: Installing lazygit
@@ -30,42 +30,54 @@
 - name: Downloading starship installer
   ansible.builtin.get_url:
     url: https://starship.rs/install.sh
-    dest: ./starship_install.sh
-    mode: '0755'
+    dest: /tmp/starship_install.sh
+    mode: "0755"
 
 - name: Installing starship
   become: true
   ansible.builtin.command:
-    cmd: ./starship_install.sh -y
+    cmd: /tmp/starship_install.sh -y
 
 - name: Setting up Neovim Config folder.
   ansible.builtin.command:
     cmd: mkdir -p '{{ config_dir }}/nvim'
-    creates: '{{ config_dir }}/nvim'
+    creates: "{{ config_dir }}/nvim"
 
 - name: Cloning neovim configuration
   ansible.builtin.git:
     repo: "https://github.com/kakeetopius/nvim-setup"
-    dest: '{{ config_dir }}/nvim'
+    dest: "{{ config_dir }}/nvim"
   ignore_errors: true
 
 - name: Setting up development folder
   ansible.builtin.command:
     cmd: mkdir -p '{{ project_dir }}'
-    creates: '{{ project_dir }}'
+    creates: "{{ project_dir }}"
 
 - name: Cloning credential manager (cman) repo
   ansible.builtin.git:
     repo: "https://github.com/kakeetopius/credman"
-    dest: '{{ project_dir }}/credman'
+    dest: "{{ project_dir }}/credman"
   ignore_errors: true
 
 - name: Installing credential manager (cman)
   ansible.builtin.command:
-    chdir: '{{ project_dir }}/credman'
-    cmd: '{{ cargo_path }} install --path .'
+    chdir: "{{ project_dir }}/credman"
+    cmd: "{{ cargo_path }} install --path ."
 
 - name: Installing eza
   ansible.builtin.command:
-    cmd: '{{ cargo_path }} install eza'
+    cmd: "{{ cargo_path }} install eza"
   when: ansible_facts["os_family"] == "Debian"
+
+- name: Setting Up tmux plugin folder
+  ansible.builtin.command:
+    cmd: mkdir -p '{{ tpm_path }}'
+    creates: "{{ tpm_path }}"
+
+- name: Installing tmux plugin manager (tpm)
+  ansible.builtin.git:
+    repo: "https://github.com/tmux-plugins/tpm"
+    dest: "{{ tpm_path }}"
+    force: true
+  ignore_errors: true

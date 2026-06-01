@@ -1,0 +1,6 @@
+[Unit]
+Description=Run rclone to sync local folders to cloud
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c "$HOME/Dev/bin/rclone_sync.sh"

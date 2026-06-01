@@ -13,6 +13,7 @@ set -xg VISUAL "/usr/bin/nvim"
 set -xg TERM "xterm-256color"
 set -xg PAGER "less -RF"
 set -xg PAGER_PATH "/usr/bin/less"
+set -xg MANPAGER "nvim +Man!"
 set -xg BAT_THEME "tokyonight_night"
 
 #adding custom scripts folder to path
@@ -23,10 +24,15 @@ for path in customPaths
 end
 
 abbr n nvim
+
 abbr gb "go build ."
 abbr gr "go run ."
+abbr gi "go install ."
+
 abbr cb "cargo build"
 abbr cr "cargo run"
+abbr ci "cargo install --path ."
+
 abbr cg "cman get"
 
 bind alt-e "nvim"
