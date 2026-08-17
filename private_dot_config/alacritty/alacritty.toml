@@ -5,7 +5,7 @@ dynamic_title = true
 decorations_theme_variant = "Dark"
 
 [font]
-normal = { family = "Hack Nerd Font", style = "Regular" }
+normal = { family = "Hack Nerd Font", style = "Medium" }
 bold = { family = "Hack Nerd Font", style = "Bold" }
 italic = { family = "Hack Nerd Font", style = "Italic" }
 size = 13
@@ -15,7 +15,7 @@ style = { shape = "Beam", blinking = "On" }
 unfocused_hollow = true
 
 [scrolling]
-history = 10000
+history = 100000
 multiplier = 3
 
 [env]
@@ -46,3 +46,4 @@ blue    = "#5c9cff"
 magenta = "#e07be0"
 cyan    = "#50cfd8"
 white   = "#eaeaea"
+
