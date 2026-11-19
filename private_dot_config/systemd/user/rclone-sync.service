@@ -3,4 +3,4 @@ Description=Run rclone to sync local folders to cloud
 
 [Service]
 Type=oneshot
-ExecStart=/home/pius/Dev/bin/rclone_sync.sh
+ExecStart=/home/pius/Dev/bin/rclone_sync.rb
