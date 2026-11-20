@@ -4,7 +4,7 @@ require 'optparse'
 
 ADDITIONAL_HELP = <<~EOF
   \nNOTE:
-  The script only works for ethernet interfaces
+  This script only works for ethernet interfaces
 EOF
 
 def main

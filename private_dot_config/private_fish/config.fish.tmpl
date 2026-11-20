@@ -48,9 +48,11 @@ set -xg FZF_DEFAULT_COMMAND 'fd --hidden --strip-cwd-prefix --exclude .git'
 # To apply the command to CTRL-T as well
 set -xg FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
 set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+set -xg CMAN_PASSWD_FILE "$HOME/.cman/passwd"
+
 
 {{ if .chezmoi.config.secret.command }}
-set api_keys "{{ secret "get" "yt-api" "chatgpt" "opensubtitles_api" "--type" "api" "--field" "key" "--quiet" }}"
+set api_keys "{{ secret "get" "yt-api" "chatgpt" "opensubtitles_api" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
 set api_keys $(echo "$api_keys" | tr "\n" " ")
 echo "$api_keys" | read yt_api chatgpt_api opensubtitles_api
 
