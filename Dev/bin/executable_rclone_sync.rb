@@ -1,20 +1,26 @@
 #!/usr/bin/env ruby
 
-REMOTE_NAME = 'Strath Onedrive:'
-LOCAL_DIR = "#{Dir.home}/Strath Onedrive/"
+syncs = {
+  'Strath Onedrive:': "#{Dir.home}/Strath Onedrive",
+  'OneDrive Personal:/Documents': "#{Dir.home}/Documents/Docs"
+}
+
 RESYNC_REQUIRED_STATUS = 7
-
 rclone_normal_opts = ['--progress', '--verbose']
-rclone_resync_opts = rclone_normal_opts << '--resync'
+rclone_resync_opts = rclone_normal_opts + ['--resync-mode=newer']
 
-system 'rclone', 'bisync', *rclone_normal_opts, REMOTE_NAME, LOCAL_DIR
+syncs.each do |remote, local|
+  puts "### Syncing remote #{remote} ###"
 
-if $?.exitstatus == RESYNC_REQUIRED_STATUS
-  puts 'Resyncing......................'
-  system 'rclone', 'bisync', *rclone_resync_opts, REMOTE_NAME, LOCAL_DIR
+  system 'rclone', 'bisync', *rclone_normal_opts, remote.to_s, local
 
-  echo 'Trying to sync again'
-  system 'rclone', 'bisync', *rclone_normal_opts, REMOTE_NAME, LOCAL_DIR
+  if $?.exitstatus == RESYNC_REQUIRED_STATUS
+    puts 'Resyncing......................'
+    system 'rclone', 'bisync', *rclone_resync_opts, remote.to_s, local
+
+    puts 'Trying to sync again'
+    system 'rclone', 'bisync', *rclone_normal_opts, remote.to_s, local
+  end
+
+  puts "Rclone exited with code #{$?.exitstatus}"
 end
-
-puts "Rclone exited with code #{$?.exitstatus}"

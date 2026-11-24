@@ -1,4 +1,8 @@
-if status is-interactive
+if ! status is-interactive
+    exit
+end
+
+#some aliases
 alias scstatus="sudo systemctl status"
 alias restart="sudo systemctl restart"
 alias start="sudo systemctl start"
@@ -7,69 +11,67 @@ alias sdr="sudo shutdown -r now"
 alias sd="sudo shutdown now"
 alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
 alias nvim-cd="cd ~/.config/nvim"
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
 
-set -xg EDITOR "/usr/bin/nvim"
-set -xg VISUAL "/usr/bin/nvim"
-set -xg TERM "xterm-256color"
+# some envs
+set -xg EDITOR /usr/bin/nvim
+set -xg VISUAL /usr/bin/nvim
+set -xg TERM xterm-256color
 set -xg PAGER "less -RF"
-set -xg PAGER_PATH "/usr/bin/less"
+set -xg PAGER_PATH /usr/bin/less
 set -xg MANPAGER "nvim +Man!"
-set -xg BAT_THEME "tokyonight_night"
+set -xg BAT_THEME tokyonight_night
 
 #adding custom scripts folder to path
-set customPaths $HOME/Dev/bin $HOME/go/bin
-
-for path in customPaths
-[ -d $path ] && set -xg PATH $PATH:$path
+set customPaths "$HOME/Dev/bin" "$HOME/go/bin"
+for path in $customPaths
+    fish_add_path $path
 end
 
+#some abbreviations
 abbr n nvim
-
 abbr gb "go build ."
 abbr gr "go run ."
 abbr gi "go install ."
-
 abbr cb "cargo build"
 abbr cr "cargo run"
 abbr ci "cargo install --path ."
-
 abbr cg "cman get"
 
-bind alt-e "nvim"
+# some key bindings
+bind alt-e nvim
 bind alt-n "nvim ."
 bind alt-w "cman get"
 bind alt-u "sudo dnf update"
 bind alt-o "xdg-open ."
 
+# fzf config
 eval "$(fzf --fish)"
 # Setting fd as the default source for fzf
 set -xg FZF_DEFAULT_COMMAND 'fd --hidden --strip-cwd-prefix --exclude .git'
-
 # To apply the command to CTRL-T as well
 set -xg FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
 set -xg FZF_ALT_C_COMMAND "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-set -xg CMAN_PASSWD_FILE "$HOME/.cman/passwd"
 
-
-{{ if .chezmoi.config.secret.command }}
-set api_keys "{{ secret "get" "yt-api" "chatgpt" "opensubtitles_api" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
-set api_keys $(echo "$api_keys" | tr "\n" " ")
-echo "$api_keys" | read yt_api chatgpt_api opensubtitles_api
-
+# cman config
 set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
 set -xg CMAN_DBURL "https://raw.githubusercontent.com/kakeetopius/dotfiles/refs/heads/main/dot_creds.db"
-set -xg yt_api "$yt_api"
-set -xg OPENAI_API_KEY "$chatgpt_api"
-set -xg OPENSUBTITLES_API_KEY "$opensubtitles_api"
+set -xg CMAN_PASSWD_FILE "$HOME/.cman/passwd"
+
+{{ if .chezmoi.config.secret.command }}
+set -xg GITHUB_TOKEN "{{ secret "get" "github_token" "--field" "pass" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
+set -xg yt_api "{{ secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
+set -xg OPENAI_API_KEY "{{ secret "get" "chatgpt" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
+set -xg OPENSUBTITLES_API_KEY "{{ secret "get" "opensubtitles_api" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
 {{ end }}
 
+# init starship (cli prompt)
 eval (starship init fish)
 
+# start tmux if not already in a tmux session
 if test -z "$TMUX"
-tmux new -A -s main
+    tmux new -A -s main
 end
 
-end
-
-# opencode
-fish_add_path /home/pius/.opencode/bin

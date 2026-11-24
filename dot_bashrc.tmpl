@@ -9,46 +9,11 @@ PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
-# Some more alias to avoid making mistakes:
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-
-#adding custom scripts folder to path
-customPaths=("$HOME/Dev/bin" "$HOME/go/bin")
-for path in "${customPaths[@]}"; do
-[ -d "$path" ] && export PATH="$PATH:$path"
-done
-
 # Append to history immediately after each command
 shopt -s histappend
 PROMPT_COMMAND='history -a; history -n; history -r'
 
-#-------------------FZF CONFIGURATION-------------------------
-# Set up fzf key bindings and fuzzy completion
-eval "$(fzf --bash)"
-
-#enable fzf_tmux
-# export FZF_TMUX=1
-# export FZF_TMUX_OPTS='-p 50%,60%'
-# export FZF_DEFAULT_OPTS='--tmux'
-
-# Setting fd as the default source for fzf
-export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
-
-# To apply the command to CTRL-T as well
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-
-# Bind the Up arrow to trigger the fzf history search
-bind -x '"\e[A": __fzf_history__'
-#------------------------------------------------------------------------
-
-alias ls="eza --color=always --git --no-filesize --icons=always --no-time --group"
-
-#checking to see if one of the bash options is *interactive*
+#checking to see if one of the bash options is *interactive* so that we start the fish shell instead
 if [[ "$-" == *i* ]]; then
 [ -x /bin/fish ] && SHELL=/bin/fish exec fish
 fi
-. "$HOME/.cargo/env"
