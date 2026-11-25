@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean up old neovim sessions.
+
+[Service]
+Type=oneshot
+ExecStart=/home/pius/Dev/bin/nvim_session_cleanup.rb
