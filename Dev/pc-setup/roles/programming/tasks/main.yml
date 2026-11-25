@@ -1,0 +1,39 @@
+---
+- name: Include OS specific variables
+  ansible.builtin.include_vars:
+    file: '{{ansible_facts["os_family"]}}.yml'
+
+- name: Installing core dev packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ packages }}"
+    state: present
+
+- name: Cloning the gover repository (tool to manage go versions)
+  ansible.builtin.git:
+    repo: "https://github.com/kakeetopius/gover"
+    dest: "{{ project_dir }}/gover"
+  ignore_errors: true
+
+- name: Installing gover.
+  ansible.builtin.command:
+    chdir: "{{ project_dir }}/gover"
+    cmd: go install .
+  environment:
+    GOTOOLCHAIN: auto
+
+- name: Updating to the latest go version using gover.
+  ansible.builtin.command:
+    cmd: "{{ gover_path }} update"
+
+- name: Downloading rustup installer
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup-init.sh
+    mode: "0755"
+
+- name: Installing Rust
+  register: result
+  ansible.builtin.command:
+    cmd: /tmp/rustup-init.sh -y
+  failed_when: result.rc not in [0, 1]

@@ -1,0 +1,8 @@
+packages:
+  - git
+  - golang
+  - openssl-devel
+  - perl
+  - ruby
+  - ruby-devel
+  - jq

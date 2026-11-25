@@ -1,0 +1,19 @@
+# This vagrant file defines vms that are used to test the ansible setup.
+#
+Vagrant.configure('2') do |config|
+  config.vm.provider 'virtualbox' do |vb|
+    vb.gui = true
+    vb.cpus = 1
+    vb.memory = 1024
+    vb.customize ['modifyvm', :id, '--vram', '128']
+    vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+  end
+
+  config.vm.define 'fedora' do |fedora|
+    fedora.vm.box = 'cloud-image/fedora-43'
+
+    fedora.vm.provider 'virtualbox' do |vbox|
+      vbox.name = 'fedora43'
+    end
+  end
+end

@@ -60,18 +60,23 @@ set -xg CMAN_DBFILE "$HOME/.local/share/chezmoi/dot_creds.db"
 set -xg CMAN_DBURL "https://raw.githubusercontent.com/kakeetopius/dotfiles/refs/heads/main/dot_creds.db"
 set -xg CMAN_PASSWD_FILE "$HOME/.cman/passwd"
 
-{{ if .chezmoi.config.secret.command }}
-set -xg GITHUB_TOKEN "{{ secret "get" "github_token" "--field" "pass" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
-set -xg yt_api "{{ secret "get" "yt-api" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
-set -xg OPENAI_API_KEY "{{ secret "get" "chatgpt" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
-set -xg OPENSUBTITLES_API_KEY "{{ secret "get" "opensubtitles_api" "--type" "api" "--field" "key" "--quiet" "--passwd-file" "/home/pius/.cman/passwd"}}"
-{{ end }}
+{{ if .chezmoi.config.secret.command -}}
+
+{{- $cmanPasswdFile := printf "%s/%s" .chezmoi.homeDir ".cman/passwd" }}
+set -xg GITHUB_TOKEN "{{ secret "get" "github_token" "--field" "pass" "--quiet" "--no-clipboard" "--passwd-file" $cmanPasswdFile }}"
+set -xg yt_api "{{ secret "get" "yt-api" "--type" "key" "--field" "key" "--quiet" "--no-clipboard" "--passwd-file" $cmanPasswdFile}}"
+set -xg OPENAI_API_KEY "{{ secret "get" "chatgpt" "--type" "key" "--field" "key" "--quiet" "--no-clipboard" "--passwd-file" $cmanPasswdFile}}"
+set -xg OPENSUBTITLES_API_KEY "{{ secret "get" "opensubtitles_api" "--type" "key" "--field" "key" "--quiet" "--no-clipboard" "--passwd-file" $cmanPasswdFile}}"
+
+{{- end }}
 
 # init starship (cli prompt)
 eval (starship init fish)
+
+set -g fish_key_bindings fish_vi_key_bindings
+set -g fish_greeting
 
 # start tmux if not already in a tmux session
 if test -z "$TMUX"
     tmux new -A -s main
 end
-

@@ -1,0 +1,59 @@
+---
+- name: Setting up development folder
+  ansible.builtin.file:
+    path: "{{ project_dir }}"
+    state: directory
+
+- name: Cloning the credential manager (cman) repo
+  ansible.builtin.git:
+    repo: "https://github.com/kakeetopius/credman"
+    dest: "{{ project_dir }}/credman"
+  ignore_errors: true
+
+- name: Installing the credential manager (cman)
+  ansible.builtin.command:
+    chdir: "{{ project_dir }}/credman"
+    cmd: "{{ cargo_path }} install --path ."
+    creates: "{{ cargo_path }}/bin/cman"
+
+- name: Creating cman's configuration directory
+  ansible.builtin.file:
+    path: "{{ cman_config }}"
+    state: directory
+
+- name: Creating cman's passwd file
+  ansible.builtin.copy:
+    dest: "{{ cman_config }}/passwd"
+    content: "{{ cman_passwd }}"
+    mode: "0600"
+
+- name: Get absolute path to chezmoi's source directory
+  ansible.builtin.shell: chezmoi data | jq -r .chezmoi.config.sourceDir
+  register: chezmoi_src
+
+- name: Copy credential database to home directory.
+  ansible.builtin.copy:
+    src: "{{ chezmoi_src.stdout }}/dot_creds.db"
+    dest: "{{ ansible_facts['user_dir'] }}/.creds.db"
+
+- name: Installing age - Encryption utility
+  become: true
+  ansible.builtin.package:
+    name: [age]
+    state: present
+
+- name: Creating age configuration folder
+  ansible.builtin.file:
+    path: "{{ age_config }}"
+    state: directory
+
+- name: Getting age encryption key from the credential manager.
+  ansible.builtin.command:
+    cmd: "{{ cman_path }} get -t key -q -f key age-key --no-clipboard --passwd-file {{ cman_config }}/passwd --db-file {{ ansible_facts['user_dir'] }}/.cman.db"
+  register: age_key
+
+- name: Writing age decryption key to file
+  ansible.builtin.copy:
+    dest: "{{ age_config }}/key.txt"
+    content: "{{ age_key.stdout }}"
+    mode: "0600"

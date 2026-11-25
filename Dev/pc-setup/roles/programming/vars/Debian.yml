@@ -1,0 +1,9 @@
+packages:
+  - build-essential
+  - git
+  - golang
+  - libssl-dev
+  - perl
+  - ruby-full
+  - ruby-dev
+  - jq

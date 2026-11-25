@@ -1,0 +1,6 @@
+config_dir: '{{ ansible_facts["user_dir"] }}/.config'
+project_dir: '{{ ansible_facts["user_dir"] }}/Dev/Projects'
+cargo_path: '{{ ansible_facts["user_dir"] }}/.cargo/bin/cargo'
+age_config: '{{ ansible_facts["user_dir"] }}/.age'
+cman_path: '{{ ansible_facts["user_dir"] }}/.cargo/bin/cman'
+cman_config: '{{ ansible_facts["user_dir"] }}/.cman'

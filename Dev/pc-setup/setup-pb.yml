@@ -1,0 +1,7 @@
+---
+- name: Set up complete environment
+  hosts: local
+  roles:
+    - programming
+    - secret_mgmt
+    - packages
